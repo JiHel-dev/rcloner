@@ -1,10 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Wrapper for rclone calls 
 # Specialized for OneDrive usage
 
-SYNC_USER="rcloned"
-SYNC_FOLDER="/path/to/rclone/folder/"
+SYNC_FOLDER="/app/drive/"
 
-rclone sync --ignore-size -v --multi-thread-streams 0 $SYNC_USER:/ $SYNC_FOLDER
-
+rclone sync --ignore-size -v --multi-thread-streams 0 --exclude '/Coffre-fort/**' $SYNC_USER:/ $SYNC_FOLDER

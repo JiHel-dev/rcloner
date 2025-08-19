@@ -1,0 +1,24 @@
+version: '3'
+services:
+  builder:
+    build: .
+    container_name: rcloner_builder
+    environment:
+      - CONFIG="none"
+      - SYNC_DIR="/"
+    stdin_open: true
+    tty: true
+    network_mode: host
+    volumes:
+      - ~/.config/rclone:/config/rclone:rw
+    user: 1000:1000
+  sync:
+    build: .
+    container_name: rcloner_${CONFIG}
+    volumes:
+      - ~/.config/rclone:/config/rclone:ro
+      - ${SYNC_DIR}:/app/drive:rw
+    environment:
+      - SYNC_USER=${CONFIG}
+    user: 1000:1000
+    entrypoint: "/app/sync-rclone.sh"
